@@ -1,2 +1,2 @@
 # Super-Sora
-Access Sora large and 15 second videos free
+load unpacked and go to the sora website. reload the site twice and youre set.
