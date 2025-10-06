@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Super Sora",
+  "version": "1.0",
+  "description": "This shit took way too long",
+  "permissions": ["storage", "debugger", "scripting"],
+  "host_permissions": ["https://sora.chatgpt.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

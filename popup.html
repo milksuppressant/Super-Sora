@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Super Sora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* General Styles */
+      :root {
+        --primary-color: #6a5acd; /* A nice shade of purple */
+        --secondary-color: #f0f2f5;
+        --border-color: #d9d9d9;
+        --text-color: #333;
+        --light-text-color: #666;
+        --background-color: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        width: 280px; /* Increased width for better spacing */
+        font-family: "Roboto", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        padding: 16px;
+      }
+
+      /* Header */
+      h1 {
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+      }
+
+      /* Form & Input Fields */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px; /* Consistent spacing between form elements */
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.2);
+      }
+
+      /* Custom Radio Button Toggles */
+      .radio-group {
+        display: flex;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .radio-group input[type="radio"] {
+        display: none; /* Hide the default radio button */
+      }
+
+      .radio-group label {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+        cursor: pointer;
+        background-color: var(--secondary-color);
+        color: var(--light-text-color);
+        transition: background-color 0.2s, color 0.2s;
+        font-weight: 500;
+      }
+
+      .radio-group input[type="radio"]:checked + label {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      /* Input group for side-by-side elements */
+      .input-row {
+        display: flex;
+        gap: 12px;
+      }
+
+      .input-row .form-group {
+        flex: 1;
+      }
+
+      /* Generate Button */
+      #sendRequestBtn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 6px;
+        background-color: var(--primary-color);
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+      }
+
+      #sendRequestBtn:hover {
+        background-color: #5948b1; /* Slightly darker purple on hover */
+      }
+
+      #sendRequestBtn:active {
+        transform: scale(0.98);
+      }
+
+      /* Status Message */
+      #status {
+        text-align: center;
+        margin-top: 12px;
+        font-size: 12px;
+        color: var(--light-text-color);
+        min-height: 1.2em;
+      }
+      #warning {
+        text-align: center;
+        margin-top: 12px;
+        font-size: 12px;
+        color: red;
+        min-height: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Super Sora</h1>
+
+    <form action="#" id="sora-form">
+      <div class="form-group">
+        <label>Orientation</label>
+        <div class="radio-group">
+          <input
+            name="orientation"
+            checked
+            type="radio"
+            id="landscape"
+            value="landscape"
+          />
+          <label for="landscape">Landscape</label>
+          <input
+            name="orientation"
+            type="radio"
+            id="portrait"
+            value="portrait"
+          />
+          <label for="portrait">Portrait</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Size</label>
+        <div class="radio-group">
+          <input name="size" type="radio" id="small" value="small" />
+          <label for="small">Small</label>
+          <input name="size" checked type="radio" id="large" value="large" />
+          <label for="large">Large</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="prompt">Prompt</label>
+        <input
+          id="prompt"
+          type="text"
+          required
+          placeholder="A majestic lion overlooking a canyon"
+        />
+      </div>
+
+      <div class="input-row">
+        <div class="form-group">
+          <label for="style">Style</label>
+          <input id="style" type="text" placeholder="e.g., Anime" />
+        </div>
+        <div class="form-group">
+          <label for="frames">Frames</label>
+          <input id="frames" type="number" value="600" placeholder="600" />
+        </div>
+      </div>
+
+      <button id="sendRequestBtn">Generate</button>
+    </form>
+
+    <p id="status"></p>
+    <p id="warning"></p>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
