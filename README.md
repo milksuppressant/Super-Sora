@@ -1,2 +1,2 @@
 # Super-Sora
-load unpacked and go to the sora website. reload the site twice and youre set.
+load unpacked and go to the sora website. Reload the site twice and you're set.
