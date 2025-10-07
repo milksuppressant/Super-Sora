@@ -4,6 +4,29 @@ document.getElementById("sora-form").addEventListener("submit", (e) => {
   e.preventDefault();
 });
 
+// clear access token when clicked
+document.getElementById("clearBtn").addEventListener("click", () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (!tabs[0]) {
+      chrome.runtime.sendMessage({
+        action: "failed",
+        data: "No active tab found.",
+      });
+      return;
+    }
+    const tabId = tabs[0].id;
+    chrome.scripting
+      .executeScript({
+        target: { tabId: tabId },
+        func: () => localStorage.removeItem("accessToken"),
+      })
+      .then(() => {
+        document.getElementById("status").textContent =
+          "Please reload twice or login.";
+      });
+  });
+});
+
 //prevent enter from reloading
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
