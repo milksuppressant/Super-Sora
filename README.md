@@ -1,5 +1,5 @@
 # Super-Sora
-download the zip file
+download the zip file and unzip
 <img width="1230" height="813" alt="download" src="https://github.com/user-attachments/assets/50abb1f2-c7a8-4113-9032-a1c8d7665b35" />
 
 enable developer mode and load unpacked
