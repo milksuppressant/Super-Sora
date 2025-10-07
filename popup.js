@@ -1,5 +1,4 @@
-chrome.runtime.sendMessage({ action: "clearImpaint" });
-console.log("clear impaint");
+chrome.runtime.sendMessage({ action: "clearInpaint" });
 document.getElementById("sora-form").addEventListener("submit", (e) => {
   e.preventDefault();
 });
