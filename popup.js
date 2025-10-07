@@ -49,6 +49,7 @@ document
   .getElementById("sendRequestBtn")
   .addEventListener("click", async (e) => {
     e.preventDefault();
+
     sendRequest();
   });
 
@@ -73,6 +74,8 @@ function sendRequest() {
   const orientation = orientationInput.value;
 
   if (!prompt) {
+    promptInput.setCustomValidity("Please enter a prompt");
+    promptInput.reportValidity();
     statusEl.textContent = "";
     return;
   }
@@ -115,4 +118,3 @@ function sendRequest() {
       });
   });
 }
-
