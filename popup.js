@@ -80,7 +80,8 @@ document.getElementById("imageUpload").addEventListener("change", (e) => {
 });
 
 // clear access token when clicked
-document.getElementById("clearBtn").addEventListener("click", () => {
+document.getElementById("clearBtn").addEventListener("click", (e) => {
+  e.preventDefault();
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (!tabs[0]) {
       chrome.runtime.sendMessage({
