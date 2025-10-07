@@ -129,7 +129,6 @@ function attachDebugger(tabId) {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "sendPrompt") {
-    console.log(JSON.stringify(message.data));
     // Find the currently active tab
     const { style, prompt, size, frames, orientation } = message.data;
 
@@ -194,27 +193,28 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           })
             .then((response) => {
               if (!response.ok) {
+                console.log("NOT OKAY " + response);
                 throw new Error(`HTTP error! Status: ${response.status}`);
               }
               return response.json();
             })
             .then((data) => {
-              console.log("Success:", data);
+              console.log("Success");
+              sendResponse({ success: true });
+              chrome.runtime.sendMessage({
+                action: "success",
+              });
             })
             .catch((error) => {
               chrome.runtime.sendMessage({
                 action: "failed",
                 data: error.message,
               });
-
+              sendResponse({ success: false });
               console.log("Error:", error.message);
             });
         });
     });
-    chrome.runtime.sendMessage({
-      action: "success",
-    });
-    sendResponse({ success: true });
+    return true;
   }
 });
-
