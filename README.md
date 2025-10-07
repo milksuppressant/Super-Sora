@@ -8,5 +8,7 @@ enable developer mode and load unpacked
 load the innermost folder
 <img width="1889" height="819" alt="load" src="https://github.com/user-attachments/assets/aa275e9d-160b-4b04-b96f-514302b2783c" />
 
+
+!!!DO NOT TOUCH THE DEBUG POPUP IT WILL DISSAPPEAR IN A FEW SECONDS!!!
 login to sora or reload the site twice to store your access token and enjoy
 <img width="1839" height="946" alt="generate" src="https://github.com/user-attachments/assets/0ac733d8-00ca-4d5f-8d94-18e24ad69720" />
