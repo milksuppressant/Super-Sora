@@ -21,7 +21,7 @@ document.getElementById("clearBtn").addEventListener("click", () => {
         func: () => localStorage.removeItem("accessToken"),
       })
       .then(() => {
-        document.getElementById("status").textContent =
+        document.getElementById("warning").textContent =
           "Please reload twice or login.";
       });
   });
@@ -115,3 +115,4 @@ function sendRequest() {
       });
   });
 }
+
