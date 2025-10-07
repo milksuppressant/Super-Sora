@@ -128,7 +128,7 @@ function attachDebugger(tabId) {
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "sentPrompt") {
+  if (message.action === "sendPrompt") {
     console.log(JSON.stringify(message.data));
     // Find the currently active tab
     const { style, prompt, size, frames, orientation } = message.data;
@@ -217,3 +217,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ success: true });
   }
 });
+
