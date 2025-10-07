@@ -196,10 +196,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           })
             .then((response) => {
               if (!response.ok) {
-                console.log("NOT OKAY " + JSON.stringify(response));
-                throw new Error(response.error.message);
+                response.json().then((data) => {
+                  chrome.runtime.sendMessage({
+                    action: "failed",
+                    data: data.error.message,
+                  });
+                  console.log("Error:", data.error.message);
+                });
+              } else {
+                return response.json();
               }
-              return response.json();
             })
             .then((data) => {
               console.log("Success");
