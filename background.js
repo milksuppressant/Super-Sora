@@ -201,6 +201,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     action: "failed",
                     data: data.error.message,
                   });
+                  // display the error in the popup status
+                  document.getElementById("status").textContent =
+                    data.error.message;
+
                   console.log("Error:", data.error.message);
                 });
               } else {
