@@ -5,7 +5,7 @@ const TOKEN_URL_PATTERN = "*api/auth/session*";
 // The website this extension should run on.
 const TARGET_SITE_ORIGIN = "https://sora.chatgpt.com";
 
-const inpaint_items = [];
+let inpaint_items = [];
 
 // Listener for tab updates
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -181,8 +181,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             storyboard_id: null,
           });
 
-          // Send the dummy fetch request
-          // IMPORTANT: Change the URL to your target API endpoint
+          // Send the fetch request
           fetch("https://sora.chatgpt.com/backend/nf/create", {
             method: "POST",
             headers: {
@@ -221,59 +220,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     return true;
   }
-  if (message.action === "imageUpload") {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (!tabs[0]) {
-        chrome.runtime.sendMessage({
-          action: "failed",
-          data: "No active tab found.",
-        });
-        return;
-      }
-      const tabId = tabs[0].id;
-
-      chrome.scripting
-        .executeScript({
-          target: { tabId: tabId },
-          func: () => localStorage.getItem("accessToken"),
-        })
-        .then((token) => {
-          chrome.scripting.executeScript({
-            target: { tabId: tabId },
-            func: () => {
-              if (!token) {
-                chrome.runtime.sendMessage({
-                  action: "failed",
-                  data: "Please reload the sora webpage",
-                });
-                console.log("Please reload the sora webpage");
-                return;
-              }
-              const image = document.getElementById("imageUpload").files[0];
-
-              const formData = new FormData();
-              formData.append("file", image);
-
-              fetch("https://sora.chatgpt.com/backend/uploads", {
-                method: "POST",
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-                body: formData,
-              }).then((response) => {
-                if (!response.ok) {
-                  chrome.runtime.sendMessage({
-                    action: "failed",
-                    data: "Image upload failed",
-                  });
-                  throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-              });
-            },
-          });
-        });
-    });
+  if (message.action === "addInpaint") {
+    console.log(message.data);
+    const tempItem = {
+      kind: "upload",
+      upload_id: message.data.id,
+    };
+    inpaint_items = [tempItem];
+    return true;
+  }
+  if (message.action === "clearImpaint") {
+    inpaint_items = [];
     return true;
   }
 });
