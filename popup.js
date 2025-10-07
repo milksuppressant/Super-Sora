@@ -4,6 +4,22 @@ document.getElementById("sora-form").addEventListener("submit", (e) => {
   e.preventDefault();
 });
 
+document.getElementById("uploadBtn").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  document.getElementById("imageUpload").click();
+});
+
+// on image upload close
+document.getElementById("imageUpload").addEventListener("change", (e) => {
+  const image = e.target.files[0];
+  if (!image) {
+    return;
+  }
+
+  chrome.runtime.sendMessage("imageUpload");
+});
+
 // clear access token when clicked
 document.getElementById("clearBtn").addEventListener("click", () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
