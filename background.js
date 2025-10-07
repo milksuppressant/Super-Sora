@@ -160,6 +160,25 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
           }
 
+          const body = JSON.stringify({
+            kind: "video",
+            prompt,
+            title: null,
+            orientation,
+            size,
+            n_frames: frames,
+            inpaint_items: [],
+            remix_target_id: null,
+            cameo_ids: null,
+            cameo_replacements: null,
+            model: "sy_8",
+            style_id: style,
+            audio_caption: null,
+            audio_transcript: null,
+            video_caption: null,
+            storyboard_id: null,
+          });
+
           // Send the dummy fetch request
           // IMPORTANT: Change the URL to your target API endpoint
           fetch("https://sora.chatgpt.com/backend/nf/create", {
@@ -170,30 +189,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               accept: "*/*",
               "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
             },
-            body: JSON.stringify({
-              kind: "video",
-              prompt,
-              title: null,
-              orientation,
-              size,
-              n_frames: frames,
-              inpaint_items: [],
-              remix_target_id: null,
-              cameo_ids: null,
-              cameo_replacements: null,
-              model: "sy_8",
-              style_id: style,
-              audio_caption: null,
-              audio_transcript: null,
-              video_caption: null,
-              storyboard_id: null,
-            }),
+            body,
             mode: "cors",
             credentials: "include",
           })
             .then((response) => {
               if (!response.ok) {
-                console.log("NOT OKAY " + response);
+                console.log("NOT OKAY " + JSON.stringify(response));
                 throw new Error(`HTTP error! Status: ${response.status}`);
               }
               return response.json();
