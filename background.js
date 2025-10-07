@@ -197,7 +197,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then((response) => {
               if (!response.ok) {
                 console.log("NOT OKAY " + JSON.stringify(response));
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                throw new Error(response.error.message);
               }
               return response.json();
             })
