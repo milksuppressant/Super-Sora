@@ -228,9 +228,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     inpaint_items = [tempItem];
     return true;
   }
-  if (message.action === "clearImpaint") {
+  if (message.action === "clearInpaint") {
     inpaint_items = [];
     return true;
   }
 });
-
