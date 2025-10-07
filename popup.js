@@ -2,6 +2,14 @@ document.getElementById("sora-form").addEventListener("submit", (e) => {
   e.preventDefault();
 });
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "success") {
+    document.getElementById("status").textContent = "Success!";
+  } else if (message.action === "failed") {
+    document.getElementById("status").textContent = message.data;
+  }
+});
+
 document
   .getElementById("sendRequestBtn")
   .addEventListener("click", async () => {
