@@ -221,7 +221,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
   if (message.action === "addInpaint") {
-    console.log(message.data);
     const tempItem = {
       kind: "upload",
       upload_id: message.data.id,
@@ -234,3 +233,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
 });
+
