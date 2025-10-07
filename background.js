@@ -39,22 +39,18 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 function attachDebugger(tabId) {
   const debuggee = { tabId: tabId };
 
-  chrome.debugger
-    .attach(debuggee, "1.3", () => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
-        return;
-      }
-      console.log("Debugger attached to tab " + tabId);
+  chrome.debugger.attach(debuggee, "1.3", () => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError.message);
+      return;
+    }
+    console.log("Debugger attached to tab " + tabId);
 
-      // Enable the Fetch domain to intercept network requests
-      chrome.debugger.sendCommand(debuggee, "Fetch.enable", {
-        patterns: [{ urlPattern: TOKEN_URL_PATTERN, requestStage: "Response" }],
-      });
-    })
-    .catch((error) => {
-      console.error("Error attaching debugger:", error);
+    // Enable the Fetch domain to intercept network requests
+    chrome.debugger.sendCommand(debuggee, "Fetch.enable", {
+      patterns: [{ urlPattern: TOKEN_URL_PATTERN, requestStage: "Response" }],
     });
+  });
 
   // Add a listener for debugger events
   chrome.debugger.onEvent.addListener((source, method, params) => {
