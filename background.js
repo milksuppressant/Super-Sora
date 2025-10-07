@@ -5,6 +5,8 @@ const TOKEN_URL_PATTERN = "*api/auth/session*";
 // The website this extension should run on.
 const TARGET_SITE_ORIGIN = "https://sora.chatgpt.com";
 
+const inpaint_items = [];
+
 // Listener for tab updates
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   // Ensure the page is fully loaded and the URL matches our target site
@@ -167,7 +169,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             orientation,
             size,
             n_frames: frames,
-            inpaint_items: [],
+            inpaint_items,
             remix_target_id: null,
             cameo_ids: null,
             cameo_replacements: null,
@@ -215,6 +217,61 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               sendResponse({ success: false });
               console.log("Error:", error.message);
             });
+        });
+    });
+    return true;
+  }
+  if (message.action === "imageUpload") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (!tabs[0]) {
+        chrome.runtime.sendMessage({
+          action: "failed",
+          data: "No active tab found.",
+        });
+        return;
+      }
+      const tabId = tabs[0].id;
+
+      chrome.scripting
+        .executeScript({
+          target: { tabId: tabId },
+          func: () => localStorage.getItem("accessToken"),
+        })
+        .then((token) => {
+          chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            func: () => {
+              if (!token) {
+                chrome.runtime.sendMessage({
+                  action: "failed",
+                  data: "Please reload the sora webpage",
+                });
+                console.log("Please reload the sora webpage");
+                return;
+              }
+              const image = document.getElementById("imageUpload").files[0];
+
+              const formData = new FormData();
+              formData.append("file", image);
+
+              fetch("https://sora.chatgpt.com/backend/uploads", {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+                body: formData,
+              }).then((response) => {
+                if (!response.ok) {
+                  chrome.runtime.sendMessage({
+                    action: "failed",
+                    data: "Image upload failed",
+                  });
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+              });
+            },
+          });
         });
     });
     return true;
