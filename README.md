@@ -11,4 +11,4 @@ load the innermost folder
 
 # !!!DO NOT TOUCH THE DEBUG POPUP IF IT APPEARS. RELOAD THE PAGE TWICE WHILE LOGGED IN AND IT WILL DISSAPEAR!!!
  login to sora or reload the site twice to store your access token and enjoy
-<img width="1839" height="946" alt="generate" src="https://github.com/user-attachments/assets/0ac733d8-00ca-4d5f-8d94-18e24ad69720" />
+<img width="1895" height="987" alt="ENJOY" src="https://github.com/user-attachments/assets/2b4d2ea2-2c66-4695-9355-8316e11310f0" />
