@@ -1,5 +1,5 @@
-//prevent form from submitting
-
+chrome.runtime.sendMessage({ action: "clearImpaint" });
+console.log("clear impaint");
 document.getElementById("sora-form").addEventListener("submit", (e) => {
   e.preventDefault();
 });
@@ -10,14 +10,74 @@ document.getElementById("uploadBtn").addEventListener("click", (e) => {
   document.getElementById("imageUpload").click();
 });
 
-// on image upload close
 document.getElementById("imageUpload").addEventListener("change", (e) => {
   const image = e.target.files[0];
   if (!image) {
     return;
   }
+  const status = document.getElementById("status");
+  status.textContent = "Uploading...";
 
-  chrome.runtime.sendMessage("imageUpload");
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (!tabs[0]) {
+      chrome.runtime.sendMessage({
+        action: "failed",
+        data: "No active tab found.",
+      });
+      return;
+    }
+    const tabId = tabs[0].id;
+    chrome.scripting
+      .executeScript({
+        target: { tabId: tabId },
+        func: () => localStorage.getItem("accessToken"),
+      })
+      .then((injectionResults) => {
+        const token = injectionResults[0].result;
+
+        if (!token) {
+          status.textContent = "Please reload the sora webpage";
+          console.log("Please reload the sora webpage");
+          return;
+        }
+        const formData = new FormData();
+        formData.append("file", image);
+
+        fetch("https://sora.chatgpt.com/backend/uploads", {
+          method: "POST",
+          mode: "cors",
+          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            accept: "*/*",
+            "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+          },
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              status.textContent = "Image upload failed";
+              console.log("NOT OKAY " + JSON.stringify(response));
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            status.textContent = "Image upload success";
+            response.json().then((data) => {
+              chrome.runtime.sendMessage({
+                action: "addInpaint",
+                data,
+              });
+            });
+            return;
+          })
+          .catch((error) => {
+            chrome.runtime.sendMessage({
+              action: "failed",
+              data: error.message,
+            });
+          });
+      });
+  });
 });
 
 // clear access token when clicked
@@ -54,7 +114,9 @@ document.addEventListener("keydown", function (event) {
 // add message listener
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "success") {
-    document.getElementById("status").textContent = "Success!";
+    document.getElementById("status").textContent = message.data
+      ? message.data
+      : "Success!";
   } else if (message.action === "failed") {
     document.getElementById("status").textContent = message.data;
   }
