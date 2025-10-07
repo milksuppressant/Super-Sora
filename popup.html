@@ -130,6 +130,32 @@
         cursor: pointer;
         transition: background-color 0.2s, transform 0.1s;
       }
+      #uploadBtn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 6px;
+        background-color: var(--light-text-color);
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+      }
+      #clearBtn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 6px;
+        background-color: var(--text-color);
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+      }
 
       #sendRequestBtn:hover {
         background-color: #5948b1; /* Slightly darker purple on hover */
@@ -212,7 +238,15 @@
         </div>
       </div>
 
+      <button id="uploadBtn">Upload image</button>
       <button id="sendRequestBtn">Generate</button>
+      <button id="clearBtn">Clear Token</button>
+      <input
+        hidden
+        type="file"
+        id="imageUpload"
+        accept="image/pjp, image/jpg, image/pjpeg, image/jpeg, image/png, image/jfif, image/webp"
+      />
     </form>
 
     <p id="status"></p>
