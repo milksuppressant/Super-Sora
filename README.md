@@ -9,6 +9,6 @@ load the innermost folder
 <img width="1889" height="819" alt="load" src="https://github.com/user-attachments/assets/aa275e9d-160b-4b04-b96f-514302b2783c" />
 
 
-# !!!DO NOT TOUCH THE DEBUG POPUP IF IT APPEARS. RELOAD THE PAGE TWICE WHILE LOGGED IN AND IT WILL DISSAPEAR!!!
+# !!!DO NOT TOUCH THE DEBUG POPUP IF IT APPEARS. RELOAD THE PAGE TWICE WHILE LOGGED IN AND IT WILL DISAPPEAR!!!
  login to sora or reload the site twice to store your access token and enjoy
 <img width="1895" height="987" alt="ENJOY" src="https://github.com/user-attachments/assets/2b4d2ea2-2c66-4695-9355-8316e11310f0" />
